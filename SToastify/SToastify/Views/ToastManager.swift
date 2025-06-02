@@ -4,6 +4,7 @@ import SwiftUI
 internal final class ToastManager: ObservableObject {
     @Published internal var position: ToastPosition = .top
     @Published internal private(set) var models: [ToastifyModels] = []
+    @Published internal private(set) var hudModel: HudToastify? = nil
     @Published internal private(set) var isAppeared = false
     @Published internal var safeAreaInsets: EdgeInsets = .init()
     private var dismissOverlayTask: Task<Void, any Error>?
@@ -14,6 +15,12 @@ internal final class ToastManager: ObservableObject {
         dismissOverlayTask = nil
         let model = ToastifyModels(value: toast)
         models.append(model)
+    }
+    
+    internal func addendHud(_ hud: HudToastify) {
+        dismissOverlayTask?.cancel()
+        dismissOverlayTask = nil
+        withAnimation(.linear) { hudModel = hud }
     }
     
     func remove(_ model: ToastifyModels) {
@@ -35,5 +42,20 @@ internal final class ToastManager: ObservableObject {
           remove(model)
         } catch {}
       }
+    }
+    
+    internal func removeHud() {
+        self.hudModel = nil
+    }
+    
+    internal func startHudRemovalTask(for model: HudToastify) async {
+        if let duration = model.duration {
+            do {
+                try await Task.sleep(seconds: duration)
+                removeHud()
+            } catch {}
+        } else {
+            removeHud()
+        }
     }
 }

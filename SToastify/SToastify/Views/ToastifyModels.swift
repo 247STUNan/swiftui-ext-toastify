@@ -86,3 +86,28 @@ public enum ToastPosition {
   /// Toast appears at the bottom of the screen.
   case bottom
 }
+
+// ========== ========== ========== ========== ========== ==========
+@MainActor
+@dynamicMemberLookup
+internal final class HudToastify: ObservableObject, Identifiable {
+    @Published  internal var view: AnyView
+    internal var duration: TimeInterval? = TimeInterval(5)
+    internal init(view: some View) {
+        self.view = AnyView(view)
+    }
+    
+    internal subscript<V>(dynamicMember keyPath: WritableKeyPath<AnyView, V>) -> V {
+        get { view[keyPath: keyPath] }
+        set { view[keyPath: keyPath] = newValue }
+    }
+    
+    enum Views {
+        case hudProgressView
+
+        @MainActor
+        func builder() -> HudToastify {
+            switch self { case .hudProgressView: HudToastify.init(view: HudProgressView()) }
+        }
+    }
+}

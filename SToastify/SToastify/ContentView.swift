@@ -52,6 +52,12 @@ struct ContentView: View {
             } label: {
                 Text("notify-top")
             }
+            
+            Button {
+                EMethodsToastify.notify(value: .hudCenter(HudToastify.Views.hudProgressView.builder()))
+            } label: {
+                Text("@click-center")
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }

@@ -17,9 +17,9 @@
 
 ## Preview
 
-![Preview 1](screenCap0.png)
+![Preview 1](Screenshot0.png)
 ![Preview 2](screenCap.png)
-
+![Preview 2](Screenshot2.png)
 ---
 
 ## Usage

@@ -2,6 +2,7 @@ import SwiftUI
 import Combine
 enum EMethodsToastify {
     case append( _ toast: ToastValue)
+    case hudCenter(_ hud: HudToastify?)
     case position(position: ToastPosition)
     static var `pub` = NotificationCenter.default.publisher(for: Notification.Name(rawValue: "com.toastify"))
     static var `pubReceive`: AnyPublisher<EMethodsToastify, Never> {
